@@ -75,6 +75,7 @@ window.addEventListener('load', () => {
 });
 
 document.getElementById('sizeOptions').addEventListener('change', (e) => {
+    getPrice();
     var visibility = "visible";
     if(e.target.value == "") {
         visibility = "hidden";
@@ -93,6 +94,13 @@ addressType.addEventListener('change', (e) => {
     }
 });
 
+document.getElementById('cheeseOptions').addEventListener('change', (e) => {
+    getPrice();
+});
+
+document.getElementById('sauceOptions').addEventListener('change', (e) => {
+    getPrice();
+});
 
 //NEW
 //var form = document.getElementById('form');
@@ -116,16 +124,16 @@ function getPrice()
             toppingsPrice += 0.99;
         }
     }
-
-    let totalPrice = (doughPrice + cheesePrice + saucePrice + toppingsPrice);
+    let totalPrice = (doughPrice + cheesePrice + saucePrice + toppingsPrice).toFixed(2);
 
     console.log("doughPrice: ", doughPrice);
     console.log("cheesePrice: ", cheesePrice);
     console.log("saucePrice: ", saucePrice);
     console.log("toppings: ", toppingsPrice);
     console.log("totalPrice: ", totalPrice);
-}
 
+    document.getElementById('totalPrice').innerHTML = "Total Price: $" + totalPrice;
+}
 
 
 form.addEventListener('submit', (e) => { 
