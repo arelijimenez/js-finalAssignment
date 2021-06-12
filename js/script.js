@@ -11,6 +11,7 @@ const zipCode = document.getElementById('zipCode');
 const phoneNumber = document.getElementById('phoneNumber');
 const email = document.getElementById('email');
 const errorElement = document.getElementById('error');
+const dough = document.getElementById('dough');
 
 const doughSizes = {
     handTossed: {
@@ -31,6 +32,25 @@ const doughSizes = {
     }
 };
 
+// CALC TOTAL
+// price arrays
+var cheese = [
+    0 ,
+    0 ,   
+    2.99 ,
+    3.99
+]
+var sauce = [
+    0 ,
+  .99 ,
+ 1.99 
+]
+var toppings = [
+    { price: .99 }
+]
+
+
+
 window.addEventListener('load', () => {
     document.getElementById("userName").focus();
 
@@ -40,7 +60,7 @@ window.addEventListener('load', () => {
             let sizes = doughSizes[dough];
             let options = Object.entries(sizes).map((size,i) => {
                 let description = `${size[0]}: \$${size[1]}`;
-                return `<option value="${size}">${description}</option>`;
+                return `<option value="${size[0]}">${description}</option>`;
             });
             options.unshift(`<option value="">(Please select a size)</option>`);
             let div = document.getElementById('sizeOption');
@@ -49,7 +69,7 @@ window.addEventListener('load', () => {
             document.getElementById('sizeOptions').style.visibility = "visible";
             document.getElementById('chooseCheese').style.visibility = "hidden";
             document.getElementById('chooseSauce').style.visibility = "hidden";
-            document.getElementById('chooseTopings').style.visibility = "hidden";
+            document.getElementById('chooseToppings').style.visibility = "hidden";
         });
     });
 });
@@ -61,7 +81,7 @@ document.getElementById('sizeOptions').addEventListener('change', (e) => {
     }
     document.getElementById('chooseCheese').style.visibility = visibility;
     document.getElementById('chooseSauce').style.visibility = visibility;
-    document.getElementById('chooseTopings').style.visibility = visibility;
+    document.getElementById('chooseToppings').style.visibility = visibility;
 });
 
 
@@ -75,60 +95,36 @@ addressType.addEventListener('change', (e) => {
 
 
 //NEW
-//get entries from checked radio buttons. Display an error if nothing was selected.
-var selectDough = document.querySelector('input[name="dough"]:checked');
-var selectToppings = document.querySelector('input[name="toppings"]:checked');
+//var form = document.getElementById('form');
+var theForm = document.forms["pizzaform"]
+function getPrice()
+{
+    var doughValue = form.elements["dough"].value;
+    var sizeValue = form.elements["sizeOption"].value;
+    var prices = doughSizes[doughValue];
+    var doughPrice = prices[sizeValue];
 
-console.log("selectDough:", selectDough);
-console.log("selectToppings:", selectToppings);
+    var cheeseValue = form.elements["cheeseOptions"].value;
+    var cheesePrice = cheese[cheeseValue -1];
 
+    var sauceValue = form.elements["sauceOptions"].value;
+    var saucePrice = sauce[sauceValue -1];
 
-if (selectDough === '' || selectDough == null) {
-    setErrorFor(doughOptions, 'Please, select Type of Address');
-} else {
-    setSuccessFor(doughOptions);
-}
-
-// CALC TOTAL 
-// price arrays
-var cheese = [
-    { price: 0 }, 
-    { price: 0 },	
-    { price: 2.99 },
-    { price: 3.99 }
-]
-var sauce = [
-    { price: 0 },
-    { price: .99 },
-    { price: 1.99 }
-]
-var toppings = [
-    { price: .99 }
-]
-
-var cheesePrice =  cheeseOptions;
-let sum = 0;
-
- console.log("dough:", doughSizes);
- console.log("cheese:", cheese);
- console.log("sauce:", sauce);
- console.log("toppings:", toppings);
-
-for (let i = 0; i < cheese.length; i++) {
-    if (cheese !== '' || cheese !== null) {
-        
-        setSuccessFor(email);
+    var toppingsPrice = 0;
+    for( var element of form.elements["toppings"] ){
+        if( element.checked ){
+            toppingsPrice += 0.99;
+        }
     }
+
+    let totalPrice = (doughPrice + cheesePrice + saucePrice + toppingsPrice);
+
+    console.log("doughPrice: ", doughPrice);
+    console.log("cheesePrice: ", cheesePrice);
+    console.log("saucePrice: ", saucePrice);
+    console.log("toppings: ", toppingsPrice);
+    console.log("totalPrice: ", totalPrice);
 }
-
-if (cheese)
-
-//var total = doughSizes + cheeseOptions + sauceOptions + toppingsPrice;
-//console.log("Total = $" + total);
-
-
-
-
 
 
 
